@@ -1,5 +1,6 @@
 import cv2
 import os
+import csv
 
 # 1つ目の画像フォルダのパス
 folder1_path = 'C:/Users/****/Desktop/Image_Check/hikaku1/'
@@ -27,6 +28,15 @@ for image in images1:
 
         # 閾値処理を行い、差分部分を抽出
         threshold = cv2.threshold(diff_gray, 0, 255, cv2.THRESH_BINARY)[1]
+            # 差分があったら、CSVに記録
+            with open('result.csv', 'a') as f:
+                writer = csv.writer(f)
+                writer.writerow([image, 'NG'])
+        else:
+            # 差分がなかったら、CSVに記録
+            with open('result.csv', 'a') as f:
+                writer = csv.writer(f)
+                writer.writerow([image, 'OK'])
 
         # 結果を保存または表示
         cv2.imshow('diff', threshold)
